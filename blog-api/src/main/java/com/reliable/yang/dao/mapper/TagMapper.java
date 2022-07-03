@@ -16,10 +16,11 @@ public interface TagMapper extends BaseMapper<Tag> {
 	 * @param articleId
 	 * @return
 	 */
+	// 一篇文章多个标签
 	List<Tag> findTagsByArticleId(Long articleId);
-
+	// 热门标签
 	List<Long> findHotsTagIds(int limit);
-
+	// 从文章拿到标签ID 再用标签ID拿到标签名字内容
 	List<Tag> findTagsByTagIds(@Param("tagIds") List<Long> hotsTagIds);
 
 }

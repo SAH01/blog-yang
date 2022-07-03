@@ -22,6 +22,7 @@ public class LogoutController {
 
 	@GetMapping
 	public Result logout(@RequestHeader("Authorization") String token){
+
 		return loginService.logout(token);
 	}
 }

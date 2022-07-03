@@ -14,11 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("test")
 public class TestController {
-
 	@RequestMapping
 	public Result test(){
 		SysUser sysUser = UserThreadLocal.get();
-		System.out.println("\n登录的用户信息："+sysUser.toString());
+		System.out.println("\n登录的用户信息： "+sysUser.toString());
 		return Result.success(null);
 	}
 }

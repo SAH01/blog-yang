@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
 	@Autowired
 	private LoginService loginService;
-
 	@PostMapping
 	public Result login(@RequestBody LoginParam loginParam){
 

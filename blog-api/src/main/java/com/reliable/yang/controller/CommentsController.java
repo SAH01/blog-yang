@@ -22,7 +22,6 @@ public class CommentsController {
 	public Result comments(@PathVariable("id") Long articleId){
 
 		return commentsService.commentsByArticleId(articleId);
-
 	}
 	// 实现评论功能
 	@PostMapping("create/change")

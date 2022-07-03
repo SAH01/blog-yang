@@ -53,9 +53,9 @@ public class LoginInterceptor implements HandlerInterceptor {
 			return false;
 		}
 
-		// 我希望在controller中直接获取用户信息 ThreadLocal保存用户信息
+		// 我希望在controller中直接获取用户信息 使用ThreadLocal保存用户信息
 		UserThreadLocal.put(sysUser);
-		// 是登录状态，放行
+		// 是登录状态则放行
 		return true;
 	}
 

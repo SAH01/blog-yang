@@ -27,6 +27,7 @@ public class TagServiceImpl implements TagService {
 	public TagVo copy(Tag tag){
 		TagVo tagVo = new TagVo();
 		BeanUtils.copyProperties(tag,tagVo);
+		tagVo.setId(String.valueOf(tag.getId()));
 		return tagVo;
 	}
 	public List<TagVo> copyList(List<Tag> tagList){
@@ -73,4 +74,26 @@ public class TagServiceImpl implements TagService {
 		return Result.success(copyList(tags));
 	}
 
+	/**
+	 * 导航栏
+	 * @return
+	 */
+	@Override
+	public Result findAllDetail() {
+		LambdaQueryWrapper<Tag> queryWrapper = new LambdaQueryWrapper<>();
+		List<Tag> tags = this.tagMapper.selectList(queryWrapper);
+		return Result.success(copyList(tags));
+	}
+
+	/**
+	 * 查看标签详情
+	 * @param id
+	 * @return
+	 */
+	@Override
+	public Result findDetailById(Long id) {
+		Tag tag = tagMapper.selectById(id);
+		TagVo copy = copy(tag);
+		return Result.success(copy);
+	}
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * 返回当前登录用户 token
+ * 因为登陆之后 需要跳转页面 跳转的时候是通过验证token进行的
  * @author Administrator
  * @date 2022-06-21 21:24
  */

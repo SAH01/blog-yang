@@ -18,4 +18,8 @@ public interface TagService {
 
 	// 获取 所有标签显示在文章编辑页
 	Result findAll();
+	// 导航栏
+	Result findAllDetail();
+	// 标签文章列表
+	Result findDetailById(Long id);
 }

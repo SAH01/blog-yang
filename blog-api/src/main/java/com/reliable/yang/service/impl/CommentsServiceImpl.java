@@ -22,14 +22,13 @@ import java.util.List;
 /**
  * 1. 根据文章ID 得到 评论列表 从comment表获取
  * 2. 根据作者ID 得到 作者信息
- * 3. 判断level 查询有没有下一层评论
+ * 3. 判断 level 查询有没有下一层评论
  * 4. 如果有 则根据评论ID 查询 parent_id
  * @author Administrator
  * @date 2022-06-26 17:45
  */
 @Service
 public class CommentsServiceImpl implements CommentsService {
-
 	@Autowired
 	private CommentMapper commentMapper;
 	@Autowired
@@ -38,6 +37,8 @@ public class CommentsServiceImpl implements CommentsService {
 	public CommentVo copy(Comment comment){
 		CommentVo commentVo = new CommentVo();
 		BeanUtils.copyProperties(comment,commentVo);
+
+		commentVo.setId(String.valueOf(comment.getId()));
 		//时间格式化
 		commentVo.setCreateDate(new DateTime(comment.getCreateDate()).toString("yyyy-MM-dd HH:mm"));
 		// 作者信息
@@ -45,7 +46,7 @@ public class CommentsServiceImpl implements CommentsService {
 		UserVo userVo = sysUserService.findUserVoById(authorId);
 		commentVo.setAuthor(userVo);
 		// 子评论
-		List<CommentVo> commentVoList = findCommentsByParentId(comment.getId());
+		List<CommentVo> commentVoList = findCommentsByParentId(Long.parseLong(comment.getId()));
 		commentVo.setChildrens(commentVoList);
 		// 给谁评论
 		if (comment.getLevel() > 1) {
@@ -56,6 +57,7 @@ public class CommentsServiceImpl implements CommentsService {
 		return commentVo;
 	}
 
+	// 查找子评论
 	private List<CommentVo> findCommentsByParentId(Long id) {
 		LambdaQueryWrapper<Comment> queryWrapper = new LambdaQueryWrapper<>();
 		queryWrapper.eq(Comment::getParentId,id);
@@ -72,6 +74,11 @@ public class CommentsServiceImpl implements CommentsService {
 		return commentVoList;
 	}
 
+	/**
+	 * 显示评论
+	 * @param articleId
+	 * @return
+	 */
 	@Override
 	public Result commentsByArticleId(Long articleId) {
 		LambdaQueryWrapper<Comment> queryWrapper = new LambdaQueryWrapper<>();
@@ -81,7 +88,7 @@ public class CommentsServiceImpl implements CommentsService {
 		return Result.success(copyList(comments));
 	}
 
-	/**实现评论功能
+	/**实现写评论功能
 	 * @param commentParam
 	 * @return
 	 */
@@ -90,7 +97,7 @@ public class CommentsServiceImpl implements CommentsService {
 		SysUser sysUser = UserThreadLocal.get();
 		Comment comment = new Comment();
 		comment.setArticleId(commentParam.getArticleId());
-		comment.setAuthorId(sysUser.getId());
+		comment.setAuthorId(Long.parseLong(sysUser.getId()));
 		comment.setContent(commentParam.getContent());
 		comment.setCreateDate(System.currentTimeMillis());
 		Long parent = commentParam.getParent();
@@ -102,7 +109,7 @@ public class CommentsServiceImpl implements CommentsService {
 		comment.setParentId(parent == null ? 0 : parent);
 		Long toUserId = commentParam.getToUserId();
 		comment.setToUid(toUserId == null ? 0 : toUserId);
-		this.commentMapper.insert(comment);
+		this.commentMapper.insert(comment);  //插入数据库
 		return Result.success(null);
 	}
 }

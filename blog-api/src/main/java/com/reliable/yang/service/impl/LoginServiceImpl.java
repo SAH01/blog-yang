@@ -32,6 +32,7 @@ public class LoginServiceImpl implements LoginService {
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
 	@Override
+	// 首次登陆
 	public Result login(LoginParam loginParam) {
 		/**
 		 * 1. 检查参数合法性
@@ -52,7 +53,7 @@ public class LoginServiceImpl implements LoginService {
 			return Result.fail(ErrorCode.ACCOUNT_PWD_NOT_EXIST.getCode(),ErrorCode.ACCOUNT_PWD_NOT_EXIST.getMsg());
 		}
 		//登录成功，使用JWT生成token，返回token和redis中
-		String token = JWTUtils.createToken(sysUser.getId());
+		String token = JWTUtils.createToken(Long.parseLong(sysUser.getId()));
 		redisTemplate.opsForValue().set("TOKEN_"+token, JSON.toJSONString(sysUser),1, TimeUnit.DAYS);
 		return Result.success(token);
 	}
@@ -79,7 +80,9 @@ public class LoginServiceImpl implements LoginService {
 		){
 			return Result.fail(ErrorCode.PARAMS_ERROR.getCode(),ErrorCode.PARAMS_ERROR.getMsg());
 		}
+		// 判断正在注册的账户是否已经存在
 		SysUser sysUser = this.sysUserService.findUserByAccount(account);
+		//
 		if (sysUser != null){
 			return Result.fail(ErrorCode.ACCOUNT_EXIST.getCode(),ErrorCode.ACCOUNT_EXIST.getMsg());
 		}
@@ -95,10 +98,11 @@ public class LoginServiceImpl implements LoginService {
 		sysUser.setSalt("");
 		sysUser.setStatus("");
 		sysUser.setEmail("");
+		// 保存
 		this.sysUserService.save(sysUser);
 
 		//token
-		String token = JWTUtils.createToken(sysUser.getId());
+		String token = JWTUtils.createToken(Long.parseLong(sysUser.getId()));
 
 		redisTemplate.opsForValue().set("TOKEN_"+token, JSON.toJSONString(sysUser),1, TimeUnit.DAYS);
 		return Result.success(token);

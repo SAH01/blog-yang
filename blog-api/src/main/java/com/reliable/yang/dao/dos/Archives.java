@@ -1,7 +1,7 @@
 package com.reliable.yang.dao.dos;
 
 /**
- * 归档实体类（日期 - XX篇）
+ * 归档 实体类（日期 - XX篇）
  * @author Administrator
  * @date 2022-06-21 20:27
  */

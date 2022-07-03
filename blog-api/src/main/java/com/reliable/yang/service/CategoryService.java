@@ -17,4 +17,8 @@ public interface CategoryService {
 	CategoryVo findCategoryById(Long categoryId);
 	// 写文章模块 获取用户输入的所有分类并显示在编辑页面
 	public Result findAll();
+	// 文章分类导航栏
+	Result findAllDetail();
+	// 分类文章列表
+	Result categoriesDetailById(Long id);
 }

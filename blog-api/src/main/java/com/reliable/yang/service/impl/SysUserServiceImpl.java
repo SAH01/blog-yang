@@ -29,6 +29,11 @@ public class SysUserServiceImpl implements SysUserService {
 	@Autowired
 	private RedisTemplate<String, String> redisTemplate;
 
+	/**
+	 * 首页文章列表 需要的作者 是空要默认赋值
+	 * @param userId
+	 * @return
+	 */
 	@Override
 	public SysUser findSysUserById(Long userId) {
 		SysUser sysUser = sysUserMapper.selectById(userId);
@@ -40,7 +45,7 @@ public class SysUserServiceImpl implements SysUserService {
 	}
 
 	/**
-	 *
+	 * 首次登陆
 	 * @param account
 	 * @param pwd
 	 * @return
@@ -56,13 +61,17 @@ public class SysUserServiceImpl implements SysUserService {
 		return sysUser;
 	}
 
+	/**
+	 * 登录后跳转页面验证token
+	 * @param token
+	 * @return
+	 */
 	@Override
 	public Result getUserInfoByToken(String token) {
 		/**
 		 * 1. token合法性校验（是否为空，解析是否成功，redis是否存在）
 		 * 2. 失败-》返回错误信息
 		 * 3. 成功-》返回结果 (LoginUserVo)
-		 *
 		 */
 		Map<String, Object> map = JWTUtils.checkToken(token);
 		if (map == null){
@@ -79,11 +88,10 @@ public class SysUserServiceImpl implements SysUserService {
 		loginUserVo.setId(sysUser.getId());
 		loginUserVo.setNickname(sysUser.getNickname());
 		return Result.success(loginUserVo);
-
 	}
 
 	/**
-	 * 保存注册信息
+	 * 注册时判断当前用户是否已经存在
 	 * @param account
 	 * @return
 	 */
@@ -95,6 +103,10 @@ public class SysUserServiceImpl implements SysUserService {
 		return sysUserMapper.selectOne(queryWrapper);
 	}
 
+	/**
+	 * 保存用户信息
+	 * @param sysUser
+	 */
 	@Override
 	public void save(SysUser sysUser) {
 		//注意 默认生成的id 是分布式id 采用了雪花算法
@@ -111,14 +123,14 @@ public class SysUserServiceImpl implements SysUserService {
 		SysUser sysUser = sysUserMapper.selectById(id);
 		if (sysUser == null){
 			sysUser = new SysUser();
-			sysUser.setId(1L);
+			sysUser.setId("001");
 			sysUser.setAvatar("/static/img/logo.b3a48c0.png");
 			sysUser.setNickname("码神之路");
 		}
 		UserVo userVo = new UserVo();
 		userVo.setAvatar(sysUser.getAvatar());
 		userVo.setNickname(sysUser.getNickname());
-		userVo.setId(sysUser.getId());
+		userVo.setId(String.valueOf(sysUser.getId()));
 		return userVo;
 	}
 }

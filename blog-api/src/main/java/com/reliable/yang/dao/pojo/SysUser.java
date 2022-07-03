@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class SysUser {
 
-	private Long id;
+	private String id;
 
 	private String account;
 
@@ -35,4 +35,5 @@ public class SysUser {
 	private String salt;
 
 	private String status;
+
 }

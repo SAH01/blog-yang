@@ -12,7 +12,7 @@ import com.reliable.yang.vo.UserVo;
  * @Description: 作者
  */
 public interface SysUserService {
-	//【返回作者昵称（首页）】
+	//【返回作者昵称（首页文章列表展示）】
 	SysUser findSysUserById(Long userId);
 	//【登录】 登录时，在数据库查找是否有对应用户
 	SysUser findUser(String account, String pwd);

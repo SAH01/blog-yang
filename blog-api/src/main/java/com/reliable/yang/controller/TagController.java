@@ -5,6 +5,7 @@ import com.reliable.yang.vo.Result;
 import com.reliable.yang.vo.TagVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,9 +30,20 @@ public class TagController {
 		return Result.success(tagVoList);
 	}
 
-	// 获取所有标签显示在编辑页
+	// 获取所有标签 显示在发布文章的编辑页
 	@GetMapping
 	public Result findAll(){
 		return tagsService.findAll();
+	}
+
+	// 导航栏显示所有标签
+	@GetMapping("detail")
+	public Result findAllDetail(){
+		return tagsService.findAllDetail();
+	}
+	// 对应标签下显示文章列表
+	@GetMapping("detail/{id}")
+	public Result findDetailById(@PathVariable("id") Long id){
+		return tagsService.findDetailById(id);
 	}
 }

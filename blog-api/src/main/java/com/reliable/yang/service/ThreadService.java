@@ -13,11 +13,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class ThreadService {
-
-
 	@Async("taskExecutor")
 	public void updateViewCount(ArticleMapper articleMapper, Article article){
-
 		Article articleUpdate = new Article();
 		articleUpdate.setViewCounts(article.getViewCounts() + 1);
 		LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
