@@ -1,9 +1,5 @@
-package com.reliable.yang;
+package com.reliable.yang.admin;
 
-/**
- * @author Administrator
- * @date 2022-06-20 16:32
- */
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -13,11 +9,16 @@ import org.springframework.util.StringUtils;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-@Slf4j
+
+/**
+ * @author Administrator
+ * @date 2022-07-04 22:55
+ */
 @SpringBootApplication
-public class BlogApp {
+@Slf4j
+public class AdminApp {
 	public static void main(String[] args) throws UnknownHostException, UnknownHostException {
-		ConfigurableApplicationContext application = SpringApplication.run(BlogApp.class, args);
+		ConfigurableApplicationContext application = SpringApplication.run(AdminApp.class, args);
 		log.info("..######..##.....##..######...######..########..######...######.\n" +
 				".##....##.##.....##.##....##.##....##.##.......##....##.##....##\n" +
 				".##.......##.....##.##.......##.......##.......##.......##......\n" +
@@ -34,7 +35,7 @@ public class BlogApp {
 		}
 		log.info("\n----------------------------------------------------------\n\t" +
 				"Application  is running! Access URLs:\n\t" +
-				"Local访问网址: \t\thttp://localhost:" + "8080" + path + "\n\t" +
+				"Local访问网址: \t\thttp://localhost:" + port + path + "\n\t" +
 //				"External访问网址: \thttp://" + ip + ":" + port + path + "\n\t" +
 				"----------------------------------------------------------");
 	}
