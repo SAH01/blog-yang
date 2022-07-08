@@ -71,18 +71,23 @@ public class ArticleServiceImpl implements ArticleService {
 		// 并不是所有的接口都需要标签
 		if (isTag) {
 			// 先拿到tag对应的ID 再用ID去查找到对应的标签名
-			Long articleId = Long.parseLong(article.getId());
+			Long articleId = article.getId();
 			articleVo.setTags(tagService.findTagsByArticleId(articleId));
 		}
 		// 并不是所有的接口都需要作者
 		if (isAuthor) {
 			// 先拿到作者ID 再用作者ID找到对应的昵称
 			Long articleId = article.getAuthorId();
-			articleVo.setAuthor(sysUserService.findSysUserById(articleId).getNickname());
+			SysUser sysUser = sysUserService.findSysUserById(articleId);
+			UserVo userVo = new UserVo();
+			userVo.setAvatar(sysUser.getAvatar());
+			userVo.setNickname(sysUser.getNickname());
+			userVo.setId(String.valueOf(sysUser.getId()));
+			articleVo.setAuthor(userVo);
 		}
 		// 并不是所有的接口都需要文章内容
 		if (isBody) {
-			ArticleBodyVo articleBody = findArticleBody(Long.parseLong(article.getId()) );
+			ArticleBodyVo articleBody = findArticleBody(article.getId());
 			articleVo.setBody(articleBody);
 		}
 		// 并不是所有的接口都需要分类
@@ -245,25 +250,32 @@ public class ArticleServiceImpl implements ArticleService {
 	@Transactional  // 加事务
 	public Result publish(ArticleParam articleParam) {
 		SysUser sysUser = UserThreadLocal.get();    //获取当前用户信息
-
 		Article article = new Article();
-		article.setAuthorId(Long.parseLong(sysUser.getId()));
-		article.setCategoryId(Long.parseLong( articleParam.getCategory().getId()));
-		article.setCreateDate(System.currentTimeMillis());
-		article.setCommentCounts(0);
-		article.setSummary(articleParam.getSummary());
-		article.setTitle(articleParam.getTitle());
-		article.setViewCounts(0);
-		article.setWeight(Article.Article_Common);
-		article.setBodyId(-1L);
-		this.articleMapper.insert(article); //先插入 插入之后会生成一个ID
-
+		boolean isEdit = false;
+		if (articleParam.getId() != null) {
+			article =new Article();
+			article.setId(articleParam.getId());
+			article.setTitle(articleParam.getTitle());
+			article.setSummary(articleParam.getSummary());
+			article.setCategoryId(Long.parseLong(articleParam.getCategory().getId()));
+		}else{
+			article.setAuthorId(sysUser.getId());
+			article.setCategoryId(Long.parseLong( articleParam.getCategory().getId()));
+			article.setCreateDate(System.currentTimeMillis());
+			article.setCommentCounts(0);
+			article.setSummary(articleParam.getSummary());
+			article.setTitle(articleParam.getTitle());
+			article.setViewCounts(0);
+			article.setWeight(Article.Article_Common);
+			article.setBodyId(-1L);
+			this.articleMapper.insert(article); //先插入 插入之后会生成一个ID
+		}
 		//tags
 		List<TagVo> tags = articleParam.getTags();
 		if (tags != null) {
 			for (TagVo tag : tags) {
 				ArticleTag articleTag = new ArticleTag();
-				articleTag.setArticleId(Long.parseLong(article.getId()));
+				articleTag.setArticleId(article.getId());
 				articleTag.setTagId(Long.parseLong(tag.getId()));
 				this.articleTagMapper.insert(articleTag);
 			}
@@ -272,13 +284,14 @@ public class ArticleServiceImpl implements ArticleService {
 		ArticleBody articleBody = new ArticleBody();
 		articleBody.setContent(articleParam.getBody().getContent());
 		articleBody.setContentHtml(articleParam.getBody().getContentHtml());
-		articleBody.setArticleId(Long.parseLong(article.getId()));
+		articleBody.setArticleId(article.getId());
 		articleBodyMapper.insert(articleBody);
 
-		article.setBodyId(Long.parseLong(articleBody.getId()));
+		article.setBodyId(articleBody.getId());
 		articleMapper.updateById(article);
 		ArticleVo articleVo = new ArticleVo();
-		articleVo.setId(article.getId());
+		articleVo.setId(String.valueOf(article.getId()));
+
 		return Result.success(articleVo);
 	}
 }

@@ -85,7 +85,7 @@ public class SysUserServiceImpl implements SysUserService {
 		LoginUserVo loginUserVo = new LoginUserVo();
 		loginUserVo.setAccount(sysUser.getAccount());
 		loginUserVo.setAvatar(sysUser.getAvatar());
-		loginUserVo.setId(sysUser.getId());
+		loginUserVo.setId(String.valueOf(sysUser.getId()));
 		loginUserVo.setNickname(sysUser.getNickname());
 		return Result.success(loginUserVo);
 	}
@@ -123,7 +123,7 @@ public class SysUserServiceImpl implements SysUserService {
 		SysUser sysUser = sysUserMapper.selectById(id);
 		if (sysUser == null){
 			sysUser = new SysUser();
-			sysUser.setId("001");
+			sysUser.setId(123L);
 			sysUser.setAvatar("/static/img/logo.b3a48c0.png");
 			sysUser.setNickname("码神之路");
 		}

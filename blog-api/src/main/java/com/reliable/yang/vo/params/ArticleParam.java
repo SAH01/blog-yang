@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 public class ArticleParam {
 
-	private String id;
+	private Long id;
 
 	private ArticleBodyParam body;
 
@@ -25,4 +25,6 @@ public class ArticleParam {
 	private List<TagVo> tags;
 
 	private String title;
+
+	private String search;
 }

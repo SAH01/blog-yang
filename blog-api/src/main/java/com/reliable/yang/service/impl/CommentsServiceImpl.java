@@ -46,7 +46,7 @@ public class CommentsServiceImpl implements CommentsService {
 		UserVo userVo = sysUserService.findUserVoById(authorId);
 		commentVo.setAuthor(userVo);
 		// 子评论
-		List<CommentVo> commentVoList = findCommentsByParentId(Long.parseLong(comment.getId()));
+		List<CommentVo> commentVoList = findCommentsByParentId(comment.getId());
 		commentVo.setChildrens(commentVoList);
 		// 给谁评论
 		if (comment.getLevel() > 1) {
@@ -97,7 +97,7 @@ public class CommentsServiceImpl implements CommentsService {
 		SysUser sysUser = UserThreadLocal.get();
 		Comment comment = new Comment();
 		comment.setArticleId(commentParam.getArticleId());
-		comment.setAuthorId(Long.parseLong(sysUser.getId()));
+		comment.setAuthorId(sysUser.getId());
 		comment.setContent(commentParam.getContent());
 		comment.setCreateDate(System.currentTimeMillis());
 		Long parent = commentParam.getParent();

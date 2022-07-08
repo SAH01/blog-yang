@@ -53,7 +53,7 @@ public class LoginServiceImpl implements LoginService {
 			return Result.fail(ErrorCode.ACCOUNT_PWD_NOT_EXIST.getCode(),ErrorCode.ACCOUNT_PWD_NOT_EXIST.getMsg());
 		}
 		//登录成功，使用JWT生成token，返回token和redis中
-		String token = JWTUtils.createToken(Long.parseLong(sysUser.getId()));
+		String token = JWTUtils.createToken(sysUser.getId());
 		redisTemplate.opsForValue().set("TOKEN_"+token, JSON.toJSONString(sysUser),1, TimeUnit.DAYS);
 		return Result.success(token);
 	}
@@ -102,7 +102,7 @@ public class LoginServiceImpl implements LoginService {
 		this.sysUserService.save(sysUser);
 
 		//token
-		String token = JWTUtils.createToken(Long.parseLong(sysUser.getId()));
+		String token = JWTUtils.createToken(sysUser.getId());
 
 		redisTemplate.opsForValue().set("TOKEN_"+token, JSON.toJSONString(sysUser),1, TimeUnit.DAYS);
 		return Result.success(token);

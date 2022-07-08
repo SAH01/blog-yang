@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PageParams {
-	private int page = 1 ;
+	private int page = 1;
 
 	private int pageSize = 10;
 
@@ -25,7 +25,7 @@ public class PageParams {
 	private String month;
 
 	public String getMonth(){
-		if(this.month != null &&(this.month.length() == 1)){
+		if (this.month != null && this.month.length() == 1){
 			return "0"+this.month;
 		}
 		return this.month;

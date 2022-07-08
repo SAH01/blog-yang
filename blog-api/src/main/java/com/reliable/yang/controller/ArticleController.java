@@ -77,7 +77,10 @@ public class ArticleController {
 	 */
 	@PostMapping("publish")
 	public Result publish(@RequestBody ArticleParam articleParam){
-
 		return articleService.publish(articleParam);
+	}
+	@PostMapping("{id}")
+	public Result articleById(@PathVariable("id") Long articleId){
+		return articleService.findArticleById(articleId);
 	}
 }

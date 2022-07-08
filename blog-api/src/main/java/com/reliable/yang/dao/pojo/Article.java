@@ -14,7 +14,7 @@ public class Article {
 
 	public static final int Article_Common = 0;
 
-	private String id;
+	private Long id;
 
 	private String title;
 
@@ -40,7 +40,8 @@ public class Article {
 	/**
 	 * 置顶
 	 */
-	private Integer weight = Article_Common;
+	private Integer weight;
+
 
 	/**
 	 * 创建时间

@@ -12,8 +12,7 @@ import java.util.List;
  */
 @Data
 public class ArticleVo {
-	//一定要记得加 要不然 会出现精度损失
-//	@JsonSerialize(using = ToStringSerializer.class)
+	//    @JsonSerialize(using = ToStringSerializer.class)
 	private String id;
 
 	private String title;
@@ -30,7 +29,7 @@ public class ArticleVo {
 	 */
 	private String createDate;
 
-	private String author;
+	private UserVo author;
 
 	private ArticleBodyVo body;
 
