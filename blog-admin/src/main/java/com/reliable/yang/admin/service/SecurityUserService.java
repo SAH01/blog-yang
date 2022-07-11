@@ -38,6 +38,7 @@ public class SecurityUserService implements UserDetailsService {
 	}
 
 	public static void main(String[] args) {
+
 		System.out.println(new BCryptPasswordEncoder().encode("123456"));
 	}
 }

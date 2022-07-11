@@ -30,12 +30,14 @@ public class AuthService {
 		Object principal = authentication.getPrincipal();
 		if (principal == null || "anonymousUser".equals(principal)){
 			//未登录
+			log.info("未登录！");
 			return false;
 		}
 		UserDetails userDetails = (UserDetails) principal;
 		String username = userDetails.getUsername();
 		Admin admin = adminService.findAdminByUserName(username);
 		if (admin == null){
+			log.info("用户名不存在！");
 			return false;
 		}
 		if (admin.getId() == 1){

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class PermissionService {
 
+	@SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
 	@Autowired
 	private PermissionMapper permissionMapper;
 

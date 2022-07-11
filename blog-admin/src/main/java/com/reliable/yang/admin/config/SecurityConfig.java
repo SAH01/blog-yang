@@ -13,17 +13,20 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  */
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
+	/**
+	 * 这个Bean必须要有，后面会自动调用
+	 * @return
+	 */
 	@Bean
 	public BCryptPasswordEncoder bCryptPasswordEncoder(){
 		return new BCryptPasswordEncoder();
 	}
 
-	public static void main(String[] args) {
-		//加密策略 MD5 不安全 彩虹表  MD5 加盐
-		String mszlu = new BCryptPasswordEncoder().encode("mszlu");
-		System.out.println(mszlu);
-	}
+//	public static void main(String[] args) {
+//		//加密策略 MD5 不安全 彩虹表  MD5 加盐
+//		String yang = new BCryptPasswordEncoder().encode("123456");
+//		System.out.println(yang);
+//	}
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 		super.configure(web);
@@ -38,7 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/js/**").permitAll()
 				.antMatchers("/plugins/**").permitAll()
 				.antMatchers("/admin/**").access("@authService.auth(request,authentication)") //自定义service 来去实现实时的权限认证
-				.antMatchers("/pages/**").authenticated()
+				.antMatchers("/pages/**").authenticated()   // 登录成功就可以访问
 				.and().formLogin()
 				.loginPage("/login.html") //自定义的登录页面
 				.loginProcessingUrl("/login") //登录处理接口

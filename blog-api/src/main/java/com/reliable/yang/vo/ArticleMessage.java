@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 /**
- * @author B站：码神之路
+ * @author 靠谱杨
  */
 @Data
 public class ArticleMessage implements Serializable {

@@ -124,8 +124,8 @@ public class SysUserServiceImpl implements SysUserService {
 		if (sysUser == null){
 			sysUser = new SysUser();
 			sysUser.setId(123L);
-			sysUser.setAvatar("/static/img/logo.b3a48c0.png");
-			sysUser.setNickname("码神之路");
+			sysUser.setAvatar("/static/img/yang.jpg");
+			sysUser.setNickname("靠谱杨");
 		}
 		UserVo userVo = new UserVo();
 		userVo.setAvatar(sysUser.getAvatar());
